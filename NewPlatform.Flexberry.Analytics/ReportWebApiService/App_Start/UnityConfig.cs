@@ -1,8 +1,10 @@
+using Abstractions;
+using ReportManager;
 using System;
 
 using Unity;
 
-namespace Report_WebApi
+namespace ReportWebApiService
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -42,6 +44,7 @@ namespace Report_WebApi
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
+            container.RegisterInstance<IReportManager>(new PentahoReportManager());
         }
     }
 }

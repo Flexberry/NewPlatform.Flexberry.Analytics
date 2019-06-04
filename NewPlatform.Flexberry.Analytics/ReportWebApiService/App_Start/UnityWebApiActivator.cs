@@ -2,10 +2,10 @@ using System.Web.Http;
 
 using Unity.AspNet.WebApi;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Report_WebApi.UnityWebApiActivator), nameof(Report_WebApi.UnityWebApiActivator.Start))]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(Report_WebApi.UnityWebApiActivator), nameof(Report_WebApi.UnityWebApiActivator.Shutdown))]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(ReportWebApiService.UnityWebApiActivator), nameof(ReportWebApiService.UnityWebApiActivator.Start))]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(ReportWebApiService.UnityWebApiActivator), nameof(ReportWebApiService.UnityWebApiActivator.Shutdown))]
 
-namespace Report_WebApi
+namespace ReportWebApiService
 {
     /// <summary>
     /// Provides the bootstrapping for integrating Unity with WebApi when it is hosted in ASP.NET.

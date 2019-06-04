@@ -5,11 +5,9 @@
     using System;
     using System.Collections.Generic;
     using System.Configuration;
-    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Net.Http.Headers;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading;
@@ -17,16 +15,18 @@
 
     public class PentahoReportManager : IReportManager
     {
-        private IExcelFormatter _excelFormatter;
         private readonly HttpClient PentahoHttpClient;
 
         private string ReportServiceEndpoint => ConfigurationManager.AppSettings["ReportServiceEndpoint"];
 
         public PentahoReportManager()
         {
+            string login = ConfigurationManager.AppSettings["PentahoReportLogin"];
+            string password = ConfigurationManager.AppSettings["PentahoReportPassword"];
+
             var handler = new HttpClientHandler
             {
-                Credentials = new NetworkCredential("admin", "password")
+                Credentials = new NetworkCredential(login, password)
             };
 
             PentahoHttpClient = new HttpClient(handler)
@@ -53,11 +53,6 @@
                 BaseAddress = new Uri(reportServiceEndpoint),
                 Timeout = Timeout.InfiniteTimeSpan
             };
-        }
-
-        public PentahoReportManager(IExcelFormatter excelFormatter)
-        {
-            _excelFormatter = excelFormatter ?? throw new ArgumentNullException(nameof(excelFormatter));
         }
 
         /// <summary>
@@ -132,22 +127,11 @@
             response.EnsureSuccessStatusCode();
 
             byte[] resultData;
-            string mediatype = "application/octet-stream";
-            //Stream resultSteam =null;
             switch (contentType)
             {
-                case ("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;page-mode=flow"):
-                    Stream stream = await response.Content.ReadAsStreamAsync();
-                    resultData = _excelFormatter.GetFormattedExcelByteArray(
-                        stream,
-                        $"{parameters["reportName"]} на {DateTime.Now.ToString("dd.MM.yyyy")}",
-                        parameters);
-                    break;
-
                 case ("table/csv;page-mode=stream"):
                     byte[] bytes = await response.Content.ReadAsByteArrayAsync();
                     resultData =Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("windows-1251"), bytes);
-                    mediatype = "text/csv";
                     break;
 
                 default:
@@ -159,9 +143,8 @@
             var result = new HttpResponseMessage(HttpStatusCode.OK)
             {
                  Content = new ByteArrayContent(resultData),
-                //Content = new StreamContent(resultSteam)
             };
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue(mediatype);
+
             return result;
         }
 
@@ -189,7 +172,6 @@
             var regex = new Regex("page-count=\"([0-9]+)\"");
             var match = regex.Match(reportMetadata);
 
-            // Придумать, как лучше.
             if (match.Groups.Count > 1)
             {
                 return int.Parse(match.Groups[1].Value);
@@ -215,7 +197,6 @@
             var regex = new Regex("<link\\w|\\shref=\"(?=([^\"]*))");
             var match = regex.Match(reportHtml);
 
-            // Придумать, как лучше.
             if (match.Groups.Count > 1)
             {
                 cssRequestUri = match.Groups[1].Value;
@@ -235,7 +216,6 @@
         /// <returns></returns>
         private string GetRequestBody(JObject parameters)
         {
-            //string result = "";
             List<string> keyValuePair = new List<string>();
 
             foreach (var parameter in parameters)
