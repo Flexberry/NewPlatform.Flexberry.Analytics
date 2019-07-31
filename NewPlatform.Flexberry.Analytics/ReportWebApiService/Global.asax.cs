@@ -1,6 +1,6 @@
 using System.Web.Http;
 
-namespace ReportWebApiService
+namespace NewPlatform.Flexberry.Analytics.WebApi
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

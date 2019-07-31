@@ -1,7 +1,7 @@
-﻿namespace ReportWebApiService.Controllers
+﻿namespace NewPlatform.Flexberry.Analytics.WebApi.Controllers
 {
-    using Abstractions;
     using ICSSoft.STORMNET;
+    using NewPlatform.Flexberry.Analytics.Abstractions;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Threading;
@@ -28,8 +28,9 @@
         [Route("getReport")]
         public async Task<IHttpActionResult> GetReportHtml([FromBody]JObject parameters, CancellationToken ct)
         {
-            string reportPath = parameters[reportPathParamName].ToString();
-
+            //Если есть параметр, то вернет его значение.Иначе NULL.
+            string reportPath = parameters.GetValue(reportPathParamName)?.ToString();
+           
             if (string.IsNullOrEmpty(reportPath))
             {
                 return BadRequest($"Параметр {reportPathParamName} не должен быть пуст.");
@@ -62,19 +63,18 @@
         [Route("export")]
         public async Task<IHttpActionResult> ExportReport([FromBody]JObject parameters, CancellationToken ct)
         {
+            string reportPath = parameters.GetValue(reportPathParamName)?.ToString();
+
+            if (string.IsNullOrEmpty(reportPath))
+            {
+                return BadRequest($"Параметр {reportPathParamName} не должен быть пуст.");
+            }
+
+            parameters.Remove(reportPathParamName);
+
             try
             {
-                string reportPath = parameters[reportPathParamName].ToString();
-
-                if (string.IsNullOrEmpty(reportPath))
-                {
-                    return BadRequest($"Параметр {reportPathParamName} не должен быть пуст.");
-                }
-
-                parameters.Remove(reportPathParamName);
-
                 var result = await _reportManager.ExportReport(reportPath, parameters, ct);
-
                 return ResponseMessage(result);
             }
             catch (TaskCanceledException tce)
@@ -97,7 +97,7 @@
         [Route("getPageCount")]
         public async Task<IHttpActionResult> GetReportPageCount([FromBody]JObject parameters, CancellationToken ct)
         {
-            string reportPath = parameters[reportPathParamName].ToString();
+            string reportPath = parameters.GetValue(reportPathParamName)?.ToString();
             if (string.IsNullOrEmpty(reportPath))
             {
                 return BadRequest($"Параметр {reportPathParamName} не должен быть пуст.");

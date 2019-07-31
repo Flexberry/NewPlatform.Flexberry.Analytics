@@ -1,10 +1,11 @@
-using Abstractions;
-using ReportManager;
+using NewPlatform.Flexberry.Analytics.Abstractions;
+using NewPlatform.Flexberry.Analytics.ReportManager;
 using System;
-
+using System.Configuration;
 using Unity;
+using Unity.Injection;
 
-namespace ReportWebApiService
+namespace NewPlatform.Flexberry.Analytics.WebApi
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -44,7 +45,14 @@ namespace ReportWebApiService
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterInstance<IReportManager>(new PentahoReportManager());
+            int timeout = 0;
+            int.TryParse(ConfigurationManager.AppSettings["DefaultTimeout"], out timeout);
+
+            container.RegisterType<IReportManager, PentahoReportManager>(new InjectionConstructor(new object[] 
+                    { ConfigurationManager.AppSettings["ReportServiceEndpoint"]
+                        , ConfigurationManager.AppSettings["PentahoReportLogin"]
+                        , ConfigurationManager.AppSettings["PentahoReportPassword"]
+                        , timeout }));
         }
     }
 }

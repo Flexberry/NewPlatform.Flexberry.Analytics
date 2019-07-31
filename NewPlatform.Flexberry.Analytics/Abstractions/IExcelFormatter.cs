@@ -1,4 +1,4 @@
-﻿namespace Abstractions
+﻿namespace NewPlatform.Flexberry.Analytics.Abstractions
 {
     using Newtonsoft.Json.Linq;
     using System.IO;

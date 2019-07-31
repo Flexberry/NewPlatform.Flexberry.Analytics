@@ -1,12 +1,7 @@
 ﻿using NewPlatform.Flexberry.AspNet.WebApi.Cors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
-using Unity;
-using Unity.AspNet.WebApi;
 
-namespace ReportWebApiService
+namespace NewPlatform.Flexberry.Analytics.WebApi
 {
     public static class WebApiConfig
     {

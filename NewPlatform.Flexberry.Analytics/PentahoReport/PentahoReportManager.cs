@@ -1,11 +1,9 @@
-﻿namespace ReportManager
+﻿namespace NewPlatform.Flexberry.Analytics.ReportManager
 {
-    using Abstractions;
+    using NewPlatform.Flexberry.Analytics.Abstractions;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Text;
@@ -17,30 +15,11 @@
     {
         private readonly HttpClient PentahoHttpClient;
 
-        private string ReportServiceEndpoint => ConfigurationManager.AppSettings["ReportServiceEndpoint"];
-
-        public PentahoReportManager()
+        public PentahoReportManager(string reportServiceEndpoint, string login, string password, int timeout = 0)
         {
-            string login = ConfigurationManager.AppSettings["PentahoReportLogin"];
-            string password = ConfigurationManager.AppSettings["PentahoReportPassword"];
-
-            var handler = new HttpClientHandler
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(reportServiceEndpoint))
             {
-                Credentials = new NetworkCredential(login, password)
-            };
-
-            PentahoHttpClient = new HttpClient(handler)
-            {
-                BaseAddress = new Uri(ReportServiceEndpoint),
-                Timeout = Timeout.InfiniteTimeSpan
-            };
-        }
-
-        public PentahoReportManager(string reportServiceEndpoint, string login, string password)
-        {
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
-            {
-                return;
+                throw new NullReferenceException();
             }
 
             var handler = new HttpClientHandler
@@ -51,27 +30,11 @@
             PentahoHttpClient = new HttpClient(handler)
             {
                 BaseAddress = new Uri(reportServiceEndpoint),
-                Timeout = Timeout.InfiniteTimeSpan
+                Timeout = timeout > 0 ? new TimeSpan(0, 0, timeout) : Timeout.InfiniteTimeSpan
             };
         }
 
-        /// <summary>
-        ///     Возвращает URI для формирования отчёта.
-        /// </summary>
-        /// <param name="reportPath">Путь к отчёту.</param>
-        /// <param name="parameters">Параметры отчёта.</param>
-        public string GetReportUri(string reportPath, IDictionary<string, string[]> parameters)
-        {
-            string requestUri = $"/pentaho/api/repos/{reportPath}/generatedContent?";
-            requestUri += string.Join("&", parameters.Select(p => $"{p.Key}={p.Value}"));
-            return ReportServiceEndpoint + requestUri;
-        }
-
-        /// <summary>
-        ///     Получает готовый отчет c сервера отчетов с заданными параметрами.
-        /// </summary>
-        /// <param name="reportPath">Путь к отчёту.</param>
-        /// <param name="parameters">Параметры отчёта.</param>
+        /// <inheritdoc />
         public async Task<string> GetReportHtml(string reportPath, JObject parameters, CancellationToken ct)
         {
             if (ct.IsCancellationRequested == true)
@@ -80,7 +43,7 @@
             }
 
             const string pageNumberKey = "accepted-page";
-            if (parameters[pageNumberKey] == null || !int.TryParse(parameters[pageNumberKey].ToString(), out int result))
+            if (parameters[pageNumberKey] == null || !int.TryParse(parameters[pageNumberKey].ToString(), out _))
             {
                 parameters.Add(pageNumberKey, 0);
             }
@@ -95,23 +58,16 @@
             // Очищаем отчет от относительных ссылок.
             reportHtml = Regex.Replace(reportHtml, "(<link.*>)", "");
 
-            return $"{reportHtml}<style>{css}</style>";
+            return $"<style>{css}</style>{reportHtml}";
         }
 
-        /// <summary>
-        ///     Получает параметры отчёта.
-        /// </summary>
-        /// <param name="reportPath">Путь к отчёту.</param>
+        /// <inheritdoc />
         public string GetReportParameters(string reportPath)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        ///     Экспортирует отчёт.
-        /// </summary>
-        /// <param name="reportPath">Путь к отчёту.</param>
-        /// <param name="parameters">Параметры отчёта.</param>
+        /// <inheritdoc />
         public async Task<HttpResponseMessage> ExportReport(string reportPath, JObject parameters, CancellationToken ct)
         {
             if (ct.IsCancellationRequested == true)
@@ -119,7 +75,7 @@
                 ct.ThrowIfCancellationRequested();
             }
 
-            string contentType = parameters["output-target"].ToString();
+            string contentType = parameters.GetValue("output-target")?.ToString();
 
             string requestUri = $"/pentaho/api/repos/{reportPath}/generatedContent?" + GetRequestBody(parameters);
 
@@ -131,7 +87,7 @@
             {
                 case ("table/csv;page-mode=stream"):
                     byte[] bytes = await response.Content.ReadAsByteArrayAsync();
-                    resultData =Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("windows-1251"), bytes);
+                    resultData = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("windows-1251"), bytes);
                     break;
 
                 default:
@@ -142,17 +98,13 @@
 
             var result = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                 Content = new ByteArrayContent(resultData),
+                Content = new ByteArrayContent(resultData),
             };
 
             return result;
         }
 
-        /// <summary>
-        ///     Получает количество страниц в отчёте.
-        /// </summary>
-        /// <param name="reportPath">Путь к отчёту.</param>
-        /// <param name="parameters">Параметры отчёта.</param>
+        /// <inheritdoc />
         public async Task<int> GetReportPageCount(string reportPath, JObject parameters, CancellationToken ct)
         {
             if (ct.IsCancellationRequested == true)
@@ -237,7 +189,7 @@
                 }
             }
 
-            return string.Join("&",keyValuePair.ToArray());
+            return string.Join("&", keyValuePair.ToArray());
         }
     }
 }

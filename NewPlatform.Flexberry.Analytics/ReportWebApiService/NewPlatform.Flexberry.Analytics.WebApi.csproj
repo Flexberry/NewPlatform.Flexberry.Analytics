@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReportWebApiService</RootNamespace>
-    <AssemblyName>ReportWebApiService</AssemblyName>
+    <RootNamespace>NewPlatform.Flexberry.Analytics.WebApi</RootNamespace>
+    <AssemblyName>NewPlatform.Flexberry.Analytics.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -124,6 +124,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="NewPlatform.Flexberry.Analytics.WebApi.snk" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -137,18 +138,24 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Abstractions\Abstractions.csproj">
+    <ProjectReference Include="..\Abstractions\NewPlatform.Flexberry.Analytics.Abstractions.csproj">
       <Project>{a4850bd2-3ce6-4bb1-b0ad-7e26a9ae7f16}</Project>
-      <Name>Abstractions</Name>
+      <Name>NewPlatform.Flexberry.Analytics.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PentahoReport\ReportManager.csproj">
+    <ProjectReference Include="..\PentahoReport\NewPlatform.Flexberry.Analytics.ReportManager.csproj">
       <Project>{9e941213-d6a7-4063-b77f-fa2cd6b58f14}</Project>
-      <Name>ReportManager</Name>
+      <Name>NewPlatform.Flexberry.Analytics.ReportManager</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>NewPlatform.Flexberry.Analytics.WebApi.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

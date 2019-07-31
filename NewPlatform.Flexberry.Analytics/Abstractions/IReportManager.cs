@@ -1,4 +1,4 @@
-﻿namespace Abstractions
+﻿namespace NewPlatform.Flexberry.Analytics.Abstractions
 {
     using Newtonsoft.Json.Linq;
     using System.Collections.Generic;
@@ -11,13 +11,6 @@
     /// </summary>
     public interface IReportManager
     {
-        /// <summary>
-        ///     Возвращает URI для формирования отчёта.
-        /// </summary>
-        /// <param name="reportPath">Путь к отчёту.</param>
-        /// <param name="parameters">Параметры отчёта.</param>
-        string GetReportUri(string reportPath, IDictionary<string, string[]> parameters);
-
         /// <summary>
         ///     Получает готовый отчет c сервера отчетов с заданными параметрами.
         /// </summary>
