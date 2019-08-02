@@ -28,17 +28,10 @@
         [Route("getReport")]
         public async Task<IHttpActionResult> GetReportHtml([FromBody]JObject parameters, CancellationToken ct)
         {
-            //Если есть параметр, то вернет его значение.Иначе NULL.
-            string reportPath = parameters.GetValue(reportPathParamName)?.ToString();
-           
-            if (string.IsNullOrEmpty(reportPath))
-            {
-                return BadRequest($"Параметр {reportPathParamName} не должен быть пуст.");
-            }
-            parameters.Remove(reportPathParamName);
-
             try
             {
+                string reportPath = GetParameterValue(parameters, reportPathParamName);
+                parameters.Remove(reportPathParamName);
                 var result = await _reportManager.GetReportHtml(reportPath, parameters, ct);
                 return Ok(result);
             }
@@ -46,6 +39,11 @@
             {
                 LogService.LogInfo("Запрос генерации отчета был отменен", tce);
                 return null;
+            }
+            catch (ArgumentNullException ane)
+            {
+                LogService.LogError("Ошибка получения параметра", ane);
+                return BadRequest(ane.Message);
             }
             catch (Exception e)
             {
@@ -63,17 +61,10 @@
         [Route("export")]
         public async Task<IHttpActionResult> ExportReport([FromBody]JObject parameters, CancellationToken ct)
         {
-            string reportPath = parameters.GetValue(reportPathParamName)?.ToString();
-
-            if (string.IsNullOrEmpty(reportPath))
-            {
-                return BadRequest($"Параметр {reportPathParamName} не должен быть пуст.");
-            }
-
-            parameters.Remove(reportPathParamName);
-
             try
             {
+                string reportPath = GetParameterValue(parameters, reportPathParamName);
+                parameters.Remove(reportPathParamName);
                 var result = await _reportManager.ExportReport(reportPath, parameters, ct);
                 return ResponseMessage(result);
             }
@@ -81,6 +72,11 @@
             {
                 LogService.LogInfo("Запрос экспорта отчета был отменен", tce);
                 return null;
+            }
+            catch (ArgumentNullException ane)
+            {
+                LogService.LogError("Ошибка получения параметра", ane);
+                return BadRequest(ane.Message);
             }
             catch (Exception ex)
             {
@@ -97,15 +93,10 @@
         [Route("getPageCount")]
         public async Task<IHttpActionResult> GetReportPageCount([FromBody]JObject parameters, CancellationToken ct)
         {
-            string reportPath = parameters.GetValue(reportPathParamName)?.ToString();
-            if (string.IsNullOrEmpty(reportPath))
-            {
-                return BadRequest($"Параметр {reportPathParamName} не должен быть пуст.");
-            }
-
-            parameters.Remove(reportPathParamName);
             try
             {
+                string reportPath = GetParameterValue(parameters, reportPathParamName);
+                parameters.Remove(reportPathParamName);
                 var result = await _reportManager.GetReportPageCount(reportPath, parameters, ct);
                 return Ok(result);
             }
@@ -114,11 +105,38 @@
                 LogService.LogInfo("Запрос получения количества страниц был отменен", tce);
                 return null;
             }
+            catch (ArgumentNullException ane)
+            {
+                LogService.LogError("Ошибка получения параметра", ane);
+                return BadRequest(ane.Message);
+            }
             catch (Exception e)
             {
                 LogService.LogError("Исключение при получении количества страниц отчёта.", e);
                 return InternalServerError(e);
             }
+        }
+
+        /// <summary>
+        /// Получает значение параметра.
+        /// </summary>
+        /// <param name="parameters">Список параметров.</param>
+        /// <param name="parameterName">Имя параметра.</param>
+        /// <returns>Возвращает не пустое значение параметра.</returns>
+        private string GetParameterValue(JObject parameters, string parameterName)
+        {
+            if (string.IsNullOrEmpty(parameterName))
+            {
+                throw new ArgumentNullException();
+            }
+
+            string result = parameters.GetValue(parameterName)?.ToString();
+            if (string.IsNullOrEmpty(result))
+            {
+                throw new ArgumentNullException(parameterName, $"Параметр не должен быть пустым.");
+            }
+
+            return result;
         }
     }
 }

@@ -13,13 +13,30 @@
 
     public class PentahoReportManager : IReportManager
     {
-        private readonly HttpClient PentahoHttpClient;
+        private readonly HttpClient _pentahoHttpClient;
 
+        /// <summary>
+        /// Менеджер работы с системой отчетов.
+        /// </summary>
+        /// <param name="reportServiceEndpoint">Адрес системы отчетов.</param>
+        /// <param name="login">Логин для входа.</param>
+        /// <param name="password">Пароль для входа.</param>
+        /// <param name="timeout">Время ожидания запроса.</param>
         public PentahoReportManager(string reportServiceEndpoint, string login, string password, int timeout = 0)
         {
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(reportServiceEndpoint))
+            if (string.IsNullOrEmpty(reportServiceEndpoint))
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException("URL-адрес системы отчетов.", "Адрес системы отчетов не может быть пустым.");
+            }
+
+            if (string.IsNullOrEmpty(login))
+            {
+                throw new ArgumentNullException("Логин для подключения к системе отчетов", "Логин для подключения к системе отчетов не может быть пустым.");
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentNullException("Пароль для подключения к системе отчетов.", "Пароль для подключения к системе отчетов не может быть пустым.");
             }
 
             var handler = new HttpClientHandler
@@ -27,10 +44,11 @@
                 Credentials = new NetworkCredential(login, password)
             };
 
-            PentahoHttpClient = new HttpClient(handler)
+            _pentahoHttpClient = new HttpClient(handler)
             {
                 BaseAddress = new Uri(reportServiceEndpoint),
-                Timeout = timeout > 0 ? new TimeSpan(0, 0, timeout) : Timeout.InfiniteTimeSpan
+
+                Timeout = timeout > 0 ? TimeSpan.FromSeconds(timeout) : Timeout.InfiniteTimeSpan
             };
         }
 
@@ -50,7 +68,7 @@
 
             string requestUri = $"/pentaho/api/repos/{reportPath}/generatedContent?" + GetRequestBody(parameters);
 
-            var response = await PentahoHttpClient.GetAsync(requestUri, ct);
+            var response = await _pentahoHttpClient.GetAsync(requestUri, ct);
             response.EnsureSuccessStatusCode();
             string reportHtml = await response.Content.ReadAsStringAsync();
             string css = await GetReportStyleSheet(reportHtml, ct);
@@ -59,12 +77,6 @@
             reportHtml = Regex.Replace(reportHtml, "(<link.*>)", "");
 
             return $"<style>{css}</style>{reportHtml}";
-        }
-
-        /// <inheritdoc />
-        public string GetReportParameters(string reportPath)
-        {
-            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
@@ -79,7 +91,7 @@
 
             string requestUri = $"/pentaho/api/repos/{reportPath}/generatedContent?" + GetRequestBody(parameters);
 
-            HttpResponseMessage response = await PentahoHttpClient.GetAsync(requestUri, ct);
+            HttpResponseMessage response = await _pentahoHttpClient.GetAsync(requestUri, ct);
             response.EnsureSuccessStatusCode();
 
             byte[] resultData;
@@ -118,7 +130,7 @@
             string requestBody = GetRequestBody(parameters);
 
             var content = new StringContent(requestBody, Encoding.UTF8, "application/x-www-form-urlencoded");
-            var response = await PentahoHttpClient.PostAsync(requestUri, content, ct);
+            var response = await _pentahoHttpClient.PostAsync(requestUri, content, ct);
             string reportMetadata = await response.Content.ReadAsStringAsync();
 
             var regex = new Regex("page-count=\"([0-9]+)\"");
@@ -152,7 +164,7 @@
             if (match.Groups.Count > 1)
             {
                 cssRequestUri = match.Groups[1].Value;
-                responseMsg = await PentahoHttpClient.GetAsync(cssRequestUri, ct);
+                responseMsg = await _pentahoHttpClient.GetAsync(cssRequestUri, ct);
             }
 
             return responseMsg == null ?

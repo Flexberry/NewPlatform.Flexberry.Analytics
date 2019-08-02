@@ -1,7 +1,6 @@
 ﻿namespace NewPlatform.Flexberry.Analytics.Abstractions
 {
     using Newtonsoft.Json.Linq;
-    using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
@@ -17,12 +16,6 @@
         /// <param name="reportPath">Путь к отчёту.</param>
         /// <param name="parameters">Параметры отчёта.</param>
         Task<string> GetReportHtml(string reportPath, JObject parameters, CancellationToken ct);
-
-        /// <summary>
-        ///     Получает параметры отчёта.
-        /// </summary>
-        /// <param name="reportPath">Путь к отчёту.</param>
-        string GetReportParameters(string reportPath);
 
         /// <summary>
         ///     Получает количество страниц в отчёте.
