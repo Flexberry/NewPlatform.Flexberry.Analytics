@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("NewPlatform.Flexberry.Analytics.ReportManager")]
+[assembly: AssemblyTitle("NewPlatform.Flexberry.Analytics.Pentaho")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NewPlatform.Flexberry.Analytics.ReportManager")]
+[assembly: AssemblyProduct("NewPlatform.Flexberry.Analytics.Pentaho")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

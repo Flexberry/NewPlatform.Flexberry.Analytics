@@ -2,10 +2,10 @@ using System.Web.Http;
 
 using Unity.AspNet.WebApi;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NewPlatform.Flexberry.Analytics.WebApi.UnityWebApiActivator), nameof(NewPlatform.Flexberry.Analytics.WebApi.UnityWebApiActivator.Start))]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(NewPlatform.Flexberry.Analytics.WebApi.UnityWebApiActivator), nameof(NewPlatform.Flexberry.Analytics.WebApi.UnityWebApiActivator.Shutdown))]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NewPlatform.Flexberry.Analytics.WebApiSample.UnityWebApiActivator), nameof(NewPlatform.Flexberry.Analytics.WebApiSample.UnityWebApiActivator.Start))]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(NewPlatform.Flexberry.Analytics.WebApiSample.UnityWebApiActivator), nameof(NewPlatform.Flexberry.Analytics.WebApiSample.UnityWebApiActivator.Shutdown))]
 
-namespace NewPlatform.Flexberry.Analytics.WebApi
+namespace NewPlatform.Flexberry.Analytics.WebApiSample
 {
     /// <summary>
     /// Provides the bootstrapping for integrating Unity with WebApi when it is hosted in ASP.NET.

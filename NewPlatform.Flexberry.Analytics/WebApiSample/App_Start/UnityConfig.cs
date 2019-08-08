@@ -1,11 +1,11 @@
 using NewPlatform.Flexberry.Analytics.Abstractions;
-using NewPlatform.Flexberry.Analytics.ReportManager;
+using NewPlatform.Flexberry.Analytics.Pentaho;
 using System;
 using System.Configuration;
 using Unity;
 using Unity.Injection;
 
-namespace NewPlatform.Flexberry.Analytics.WebApi
+namespace NewPlatform.Flexberry.Analytics.WebApiSample
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.

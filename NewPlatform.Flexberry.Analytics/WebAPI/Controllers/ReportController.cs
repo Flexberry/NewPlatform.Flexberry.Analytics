@@ -1,12 +1,13 @@
-﻿namespace NewPlatform.Flexberry.Analytics.WebApi.Controllers
+﻿using ICSSoft.STORMNET;
+using NewPlatform.Flexberry.Analytics.Abstractions;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace NewPlatform.Flexberry.Analytics.WebAPI
 {
-    using ICSSoft.STORMNET;
-    using NewPlatform.Flexberry.Analytics.Abstractions;
-    using Newtonsoft.Json.Linq;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Web.Http;
 
     [RoutePrefix("api/Report")]
     public class ReportController : ApiController
@@ -102,12 +103,12 @@
             }
             catch (TaskCanceledException tce)
             {
-                LogService.LogInfo("Запрос получения количества страниц был отменен", tce);
+                 LogService.LogInfo("Запрос получения количества страниц был отменен", tce);
                 return null;
             }
             catch (ArgumentNullException ane)
             {
-                LogService.LogError("Ошибка получения параметра", ane);
+                 LogService.LogError("Ошибка получения параметра", ane);
                 return BadRequest(ane.Message);
             }
             catch (Exception e)

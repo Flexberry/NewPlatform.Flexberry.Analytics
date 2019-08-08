@@ -1,4 +1,4 @@
-﻿namespace NewPlatform.Flexberry.Analytics.ReportManager
+﻿namespace NewPlatform.Flexberry.Analytics.Pentaho
 {
     using NewPlatform.Flexberry.Analytics.Abstractions;
     using Newtonsoft.Json.Linq;

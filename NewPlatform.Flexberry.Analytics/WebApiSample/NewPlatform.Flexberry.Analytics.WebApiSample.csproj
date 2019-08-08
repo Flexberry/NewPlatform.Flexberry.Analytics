@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NewPlatform.Flexberry.Analytics.WebApi</RootNamespace>
-    <AssemblyName>NewPlatform.Flexberry.Analytics.WebApi</AssemblyName>
+    <RootNamespace>NewPlatform.Flexberry.Analytics.WebApiSample</RootNamespace>
+    <AssemblyName>NewPlatform.Flexberry.Analytics.WebApiSample</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -117,14 +117,13 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NewPlatform.Flexberry.Analytics.WebApi.snk" />
+    <Content Include="NewPlatform.Flexberry.Analytics.WebApiSample.snk" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -135,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -142,9 +142,13 @@
       <Project>{a4850bd2-3ce6-4bb1-b0ad-7e26a9ae7f16}</Project>
       <Name>NewPlatform.Flexberry.Analytics.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PentahoReport\NewPlatform.Flexberry.Analytics.ReportManager.csproj">
+    <ProjectReference Include="..\Pentaho\NewPlatform.Flexberry.Analytics.Pentaho.csproj">
       <Project>{9e941213-d6a7-4063-b77f-fa2cd6b58f14}</Project>
-      <Name>NewPlatform.Flexberry.Analytics.ReportManager</Name>
+      <Name>NewPlatform.Flexberry.Analytics.Pentaho</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebAPI\NewPlatform.Flexberry.Analytics.WebAPI.csproj">
+      <Project>{f4479cfc-af4e-46a3-a720-23b3eddab100}</Project>
+      <Name>NewPlatform.Flexberry.Analytics.WebAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -155,7 +159,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NewPlatform.Flexberry.Analytics.WebApi.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>NewPlatform.Flexberry.Analytics.WebApiSample.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

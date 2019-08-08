@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанных с этой сборкой.
-[assembly: AssemblyTitle("NewPlatform.Flexberry.Analytics.WebApi")]
+[assembly: AssemblyTitle("NewPlatform.Flexberry.Analytics.WebApiSample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NewPlatform.Flexberry.Analytics.WebApi")]
+[assembly: AssemblyProduct("NewPlatform.Flexberry.Analytics.WebApiSample")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

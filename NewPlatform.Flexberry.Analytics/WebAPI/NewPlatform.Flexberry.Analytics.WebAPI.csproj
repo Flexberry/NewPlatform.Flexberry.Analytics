@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A4850BD2-3CE6-4BB1-B0AD-7E26A9AE7F16}</ProjectGuid>
+    <ProjectGuid>{F4479CFC-AF4E-46A3-A720-23B3EDDAB100}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NewPlatform.Flexberry.Analytics.Abstractions</RootNamespace>
-    <AssemblyName>NewPlatform.Flexberry.Analytics.Abstractions</AssemblyName>
+    <RootNamespace>NewPlatform.Flexberry.Analytics.WebAPI</RootNamespace>
+    <AssemblyName>NewPlatform.Flexberry.Analytics.WebAPI</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,14 +34,24 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NewPlatform.Flexberry.Analytics.Abstractions.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>NewPlatform.Flexberry.Analytics.WebAPI.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="LogService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1237387dc1b896f5, processorArchitecture=MSIL">
+      <HintPath>..\packages\NewPlatform.Flexberry.LogService.1.1.0\lib\net45\LogService.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,12 +60,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IReportManager.cs" />
+    <Compile Include="ApiConfig\ReportApiConfig.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NewPlatform.Flexberry.Analytics.Abstractions.nuspec" />
-    <None Include="NewPlatform.Flexberry.Analytics.Abstractions.snk" />
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Abstractions\NewPlatform.Flexberry.Analytics.Abstractions.csproj">
+      <Project>{a4850bd2-3ce6-4bb1-b0ad-7e26a9ae7f16}</Project>
+      <Name>NewPlatform.Flexberry.Analytics.Abstractions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="NewPlatform.Flexberry.Analytics.WebAPI.nuspec" />
+    <None Include="NewPlatform.Flexberry.Analytics.WebAPI.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

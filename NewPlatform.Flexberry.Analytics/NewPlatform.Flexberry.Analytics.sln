@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewPlatform.Flexberry.Analytics.Abstractions", "Abstractions\NewPlatform.Flexberry.Analytics.Abstractions.csproj", "{A4850BD2-3CE6-4BB1-B0AD-7E26A9AE7F16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewPlatform.Flexberry.Analytics.ReportManager", "PentahoReport\NewPlatform.Flexberry.Analytics.ReportManager.csproj", "{9E941213-D6A7-4063-B77F-FA2CD6B58F14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewPlatform.Flexberry.Analytics.Pentaho", "Pentaho\NewPlatform.Flexberry.Analytics.Pentaho.csproj", "{9E941213-D6A7-4063-B77F-FA2CD6B58F14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewPlatform.Flexberry.Analytics.WebApi", "ReportWebApiService\NewPlatform.Flexberry.Analytics.WebApi.csproj", "{EBDA6828-35E2-4C0E-90EA-1DA1ADFA2B24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewPlatform.Flexberry.Analytics.WebApiSample", "WebApiSample\NewPlatform.Flexberry.Analytics.WebApiSample.csproj", "{EBDA6828-35E2-4C0E-90EA-1DA1ADFA2B24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewPlatform.Flexberry.Analytics.WebAPI", "WebAPI\NewPlatform.Flexberry.Analytics.WebAPI.csproj", "{F4479CFC-AF4E-46A3-A720-23B3EDDAB100}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{EBDA6828-35E2-4C0E-90EA-1DA1ADFA2B24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBDA6828-35E2-4C0E-90EA-1DA1ADFA2B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBDA6828-35E2-4C0E-90EA-1DA1ADFA2B24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4479CFC-AF4E-46A3-A720-23B3EDDAB100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4479CFC-AF4E-46A3-A720-23B3EDDAB100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4479CFC-AF4E-46A3-A720-23B3EDDAB100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4479CFC-AF4E-46A3-A720-23B3EDDAB100}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

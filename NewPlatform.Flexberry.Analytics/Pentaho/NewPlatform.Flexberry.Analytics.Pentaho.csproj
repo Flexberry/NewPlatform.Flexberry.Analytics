@@ -7,8 +7,8 @@
     <ProjectGuid>{9E941213-D6A7-4063-B77F-FA2CD6B58F14}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NewPlatform.Flexberry.Analytics.ReportManager</RootNamespace>
-    <AssemblyName>NewPlatform.Flexberry.Analytics.ReportManager</AssemblyName>
+    <RootNamespace>NewPlatform.Flexberry.Analytics.Pentaho</RootNamespace>
+    <AssemblyName>NewPlatform.Flexberry.Analytics.Pentaho</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,7 +33,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NewPlatform.Flexberry.Analytics.ReportManager.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>NewPlatform.Flexberry.Analytics.Pentaho.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -60,7 +60,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="NewPlatform.Flexberry.Analytics.ReportManager.snk" />
+    <None Include="NewPlatform.Flexberry.Analytics.Pentaho.nuspec" />
+    <None Include="NewPlatform.Flexberry.Analytics.Pentaho.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

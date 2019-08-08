@@ -1,7 +1,7 @@
 ﻿using NewPlatform.Flexberry.AspNet.WebApi.Cors;
 using System.Web.Http;
 
-namespace NewPlatform.Flexberry.Analytics.WebApi
+namespace NewPlatform.Flexberry.Analytics.WebApiSample
 {
     public static class WebApiConfig
     {
