@@ -1,12 +1,11 @@
-using System.Web.Http;
-
-using Unity.AspNet.WebApi;
-
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NewPlatform.Flexberry.Analytics.WebApiSample.UnityWebApiActivator), nameof(NewPlatform.Flexberry.Analytics.WebApiSample.UnityWebApiActivator.Start))]
 [assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(NewPlatform.Flexberry.Analytics.WebApiSample.UnityWebApiActivator), nameof(NewPlatform.Flexberry.Analytics.WebApiSample.UnityWebApiActivator.Shutdown))]
 
 namespace NewPlatform.Flexberry.Analytics.WebApiSample
 {
+    using System.Web.Http;
+    using Unity.AspNet.WebApi;
+
     /// <summary>
     /// Provides the bootstrapping for integrating Unity with WebApi when it is hosted in ASP.NET.
     /// </summary>
@@ -15,7 +14,7 @@ namespace NewPlatform.Flexberry.Analytics.WebApiSample
         /// <summary>
         /// Integrates Unity when the application starts.
         /// </summary>
-        public static void Start() 
+        public static void Start()
         {
             // Use UnityHierarchicalDependencyResolver if you want to use
             // a new child container for each IHttpController resolution.

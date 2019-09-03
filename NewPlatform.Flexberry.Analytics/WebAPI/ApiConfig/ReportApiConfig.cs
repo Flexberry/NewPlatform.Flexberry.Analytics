@@ -1,7 +1,7 @@
-﻿using System.Web.Http;
-
-namespace NewPlatform.Flexberry.Analytics.WebAPI
+﻿namespace NewPlatform.Flexberry.Analytics.WebAPI
 {
+    using System.Web.Http;
+
     public static class ReportApiConfig
     {
         public static void Register(HttpConfiguration config)

@@ -1,13 +1,12 @@
-﻿using ICSSoft.STORMNET;
-using NewPlatform.Flexberry.Analytics.Abstractions;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-
-namespace NewPlatform.Flexberry.Analytics.WebAPI
+﻿namespace NewPlatform.Flexberry.Analytics.WebAPI
 {
+    using ICSSoft.STORMNET;
+    using NewPlatform.Flexberry.Analytics.Abstractions;
+    using Newtonsoft.Json.Linq;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
 
     [RoutePrefix("api/Report")]
     public class ReportController : ApiController

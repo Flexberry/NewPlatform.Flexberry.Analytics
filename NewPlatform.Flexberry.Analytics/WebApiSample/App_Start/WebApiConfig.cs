@@ -1,8 +1,8 @@
-﻿using NewPlatform.Flexberry.AspNet.WebApi.Cors;
-using System.Web.Http;
-
-namespace NewPlatform.Flexberry.Analytics.WebApiSample
+﻿namespace NewPlatform.Flexberry.Analytics.WebApiSample
 {
+    using NewPlatform.Flexberry.AspNet.WebApi.Cors;
+    using System.Web.Http;
+
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
