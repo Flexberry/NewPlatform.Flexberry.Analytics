@@ -25,5 +25,6 @@
   </metadata>
   <files>
     <file src="bin\Debug\NewPlatform.Flexberry.Analytics.Abstractions.dll" target="lib\net45\NewPlatform.Flexberry.Analytics.Abstractions.dll" />
+    <file src="bin\Debug\NewPlatform.Flexberry.Analytics.Abstractions.xml" target="lib\net45\NewPlatform.Flexberry.Analytics.Abstractions.xml" />
   </files>
 </package>

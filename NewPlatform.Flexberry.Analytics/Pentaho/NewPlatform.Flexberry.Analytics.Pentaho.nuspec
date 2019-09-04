@@ -26,5 +26,6 @@
   </metadata>
   <files>
     <file src="bin\Debug\NewPlatform.Flexberry.Analytics.Pentaho.dll" target="lib\net45\NewPlatform.Flexberry.Analytics.Pentaho.dll" />
+    <file src="bin\Debug\NewPlatform.Flexberry.Analytics.Pentaho.xml" target="lib\net45\NewPlatform.Flexberry.Analytics.Pentaho.xml" />
   </files>
 </package>
