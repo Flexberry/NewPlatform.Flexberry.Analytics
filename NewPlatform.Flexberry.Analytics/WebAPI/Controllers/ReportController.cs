@@ -8,7 +8,6 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    [RoutePrefix("api/Report")]
     public class ReportController : ApiController
     {
         const string reportPathParamName = "reportPath";
@@ -25,7 +24,7 @@
         /// </summary>
         /// <param name="parameters">Параметры отчёта.</param>
         [HttpPost]
-        [Route("getReport")]
+        [ActionName("getReport")]
         public async Task<IHttpActionResult> GetReportHtml([FromBody]JObject parameters, CancellationToken ct)
         {
             try
@@ -58,7 +57,7 @@
         /// <param name="parameters">Параметры отчёта.</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("export")]
+        [ActionName("export")]
         public async Task<IHttpActionResult> ExportReport([FromBody]JObject parameters, CancellationToken ct)
         {
             try
@@ -90,7 +89,7 @@
         /// </summary>
         /// <param name="parameters">Параметры отчёта.</param>
         [HttpPost]
-        [Route("getPageCount")]
+        [ActionName("getPageCount")]
         public async Task<IHttpActionResult> GetReportPageCount([FromBody]JObject parameters, CancellationToken ct)
         {
             try
@@ -102,12 +101,12 @@
             }
             catch (TaskCanceledException tce)
             {
-                 LogService.LogInfo("Запрос получения количества страниц был отменен", tce);
+                LogService.LogInfo("Запрос получения количества страниц был отменен", tce);
                 return null;
             }
             catch (ArgumentNullException ane)
             {
-                 LogService.LogError("Ошибка получения параметра", ane);
+                LogService.LogError("Ошибка получения параметра", ane);
                 return BadRequest(ane.Message);
             }
             catch (Exception e)

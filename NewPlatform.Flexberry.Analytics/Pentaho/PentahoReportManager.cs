@@ -47,7 +47,6 @@
             _pentahoHttpClient = new HttpClient(handler)
             {
                 BaseAddress = new Uri(reportServiceEndpoint),
-
                 Timeout = timeout > 0 ? TimeSpan.FromSeconds(timeout) : Timeout.InfiniteTimeSpan
             };
         }
@@ -55,7 +54,7 @@
         /// <inheritdoc />
         public async Task<string> GetReportHtml(string reportPath, JObject parameters, CancellationToken ct)
         {
-            if (ct.IsCancellationRequested == true)
+            if (ct.IsCancellationRequested)
             {
                 ct.ThrowIfCancellationRequested();
             }
@@ -82,7 +81,7 @@
         /// <inheritdoc />
         public async Task<HttpResponseMessage> ExportReport(string reportPath, JObject parameters, CancellationToken ct)
         {
-            if (ct.IsCancellationRequested == true)
+            if (ct.IsCancellationRequested)
             {
                 ct.ThrowIfCancellationRequested();
             }
@@ -119,7 +118,7 @@
         /// <inheritdoc />
         public async Task<int> GetReportPageCount(string reportPath, JObject parameters, CancellationToken ct)
         {
-            if (ct.IsCancellationRequested == true)
+            if (ct.IsCancellationRequested)
             {
                 ct.ThrowIfCancellationRequested();
             }
@@ -150,7 +149,7 @@
         /// <param name="reportHtml">Разметка отчёта.</param>
         private async Task<string> GetReportStyleSheet(string reportHtml, CancellationToken ct)
         {
-            if (ct.IsCancellationRequested == true)
+            if (ct.IsCancellationRequested)
             {
                 ct.ThrowIfCancellationRequested();
             }

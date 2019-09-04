@@ -8,8 +8,8 @@
         {
             config.Routes.MapHttpRoute(
                 name: "ReportApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "reportapi/{controller}/{action}",
+                defaults: new { controller = "Report" }
             );
         }
     }
