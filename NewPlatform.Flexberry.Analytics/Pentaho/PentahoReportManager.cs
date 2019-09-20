@@ -96,19 +96,7 @@
             HttpResponseMessage response = await PentahoHttpClient.GetAsync(requestUri, ct);
             response.EnsureSuccessStatusCode();
 
-            byte[] resultData;
-            switch (contentType)
-            {
-                case ("table/csv;page-mode=stream"):
-                    byte[] bytes = await response.Content.ReadAsByteArrayAsync();
-                    resultData = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("windows-1251"), bytes);
-                    break;
-
-                default:
-                    bytes = await response.Content.ReadAsByteArrayAsync();
-                    resultData = bytes;
-                    break;
-            }
+            byte[] resultData = await GetReportData(contentType, response);
 
             var result = new HttpResponseMessage(HttpStatusCode.OK)
             {
@@ -144,6 +132,31 @@
             }
 
             return -1;
+        }
+
+        /// <summary>
+        ///     Получить данные отчёта.
+        /// </summary>
+        /// <param name="contentType">Тип содержимого.</param>
+        /// <param name="response">Http-ответ.</param>
+        /// <returns>Массив байт с данными отчёта.</returns>
+        protected virtual async Task<byte[]> GetReportData(string contentType, HttpResponseMessage response)
+        {
+            byte[] resultData;
+            switch (contentType)
+            {
+                case ("table/csv;page-mode=stream"):
+                    byte[] bytes = await response.Content.ReadAsByteArrayAsync();
+                    resultData = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("windows-1251"), bytes);
+                    break;
+
+                default:
+                    bytes = await response.Content.ReadAsByteArrayAsync();
+                    resultData = bytes;
+                    break;
+            }
+
+            return resultData;
         }
 
         /// <summary>

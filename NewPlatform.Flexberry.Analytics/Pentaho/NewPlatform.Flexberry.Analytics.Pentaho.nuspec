@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>NewPlatform.Flexberry.Analytics.Pentaho</id>
-    <version>1.0.0-beta01</version>
+    <version>1.0.0-beta02</version>
     <title>Flexberry Analytics.Pentaho</title>
     <authors>New Platform Ltd</authors>
     <owners>New Platform Ltd</owners>
@@ -14,6 +14,7 @@
     <releaseNotes>
       Added
       1. Implementation of Reports service interface to work with Pentaho reports.
+      2. Add virtual PentahoReportManager.GetReportData to manipulate with content of exporting report.
     </releaseNotes>
     <copyright>Copyright New Platform Ltd 2019</copyright>
     <tags>Flexberry Analytics Pentaho</tags>
