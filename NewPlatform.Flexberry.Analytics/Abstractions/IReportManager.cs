@@ -15,6 +15,7 @@
         /// </summary>
         /// <param name="reportPath">Путь к отчёту.</param>
         /// <param name="parameters">Параметры отчёта.</param>
+        /// <param name="ct">Маркер отмены.</param>
         Task<string> GetReportHtml(string reportPath, JObject parameters, CancellationToken ct);
 
         /// <summary>
@@ -22,6 +23,7 @@
         /// </summary>
         /// <param name="reportPath">Путь к отчёту.</param>
         /// <param name="parameters">Параметры отчёта.</param>
+        /// <param name="ct">Маркер отмены.</param>
         Task<int> GetReportPageCount(string reportPath, JObject parameters, CancellationToken ct);
 
         /// <summary>
@@ -29,6 +31,7 @@
         /// </summary>
         /// <param name="reportPath">Путь к отчёту.</param>
         /// <param name="parameters">Параметры отчёта.</param>
+        /// <param name="ct">Маркер отмены.</param>
         Task<HttpResponseMessage> ExportReport(string reportPath, JObject parameters, CancellationToken ct);
     }
 }

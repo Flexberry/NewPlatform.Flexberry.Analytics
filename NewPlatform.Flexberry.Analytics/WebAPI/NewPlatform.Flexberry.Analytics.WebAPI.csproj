@@ -79,7 +79,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="NewPlatform.Flexberry.Analytics.WebAPI.nuspec" />
     <None Include="NewPlatform.Flexberry.Analytics.WebAPI.snk" />
     <None Include="packages.config" />

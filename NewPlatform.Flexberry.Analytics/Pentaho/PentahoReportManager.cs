@@ -11,9 +11,12 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    ///     Менеджер отчетов для Pentaho.
+    /// </summary>
     public class PentahoReportManager : IReportManager
     {
-        private readonly HttpClient _pentahoHttpClient;
+        private readonly HttpClient PentahoHttpClient;
 
         /// <summary>
         /// Менеджер работы с системой отчетов.
@@ -44,7 +47,7 @@
                 Credentials = new NetworkCredential(login, password)
             };
 
-            _pentahoHttpClient = new HttpClient(handler)
+            PentahoHttpClient = new HttpClient(handler)
             {
                 BaseAddress = new Uri(reportServiceEndpoint),
                 Timeout = timeout > 0 ? TimeSpan.FromSeconds(timeout) : Timeout.InfiniteTimeSpan
@@ -67,7 +70,7 @@
 
             string requestUri = $"/pentaho/api/repos/{reportPath}/generatedContent?" + GetRequestBody(parameters);
 
-            var response = await _pentahoHttpClient.GetAsync(requestUri, ct);
+            var response = await PentahoHttpClient.GetAsync(requestUri, ct);
             response.EnsureSuccessStatusCode();
             string reportHtml = await response.Content.ReadAsStringAsync();
             string css = await GetReportStyleSheet(reportHtml, ct);
@@ -90,7 +93,7 @@
 
             string requestUri = $"/pentaho/api/repos/{reportPath}/generatedContent?" + GetRequestBody(parameters);
 
-            HttpResponseMessage response = await _pentahoHttpClient.GetAsync(requestUri, ct);
+            HttpResponseMessage response = await PentahoHttpClient.GetAsync(requestUri, ct);
             response.EnsureSuccessStatusCode();
 
             byte[] resultData;
@@ -129,7 +132,7 @@
             string requestBody = GetRequestBody(parameters);
 
             var content = new StringContent(requestBody, Encoding.UTF8, "application/x-www-form-urlencoded");
-            var response = await _pentahoHttpClient.PostAsync(requestUri, content, ct);
+            var response = await PentahoHttpClient.PostAsync(requestUri, content, ct);
             string reportMetadata = await response.Content.ReadAsStringAsync();
 
             var regex = new Regex("page-count=\"([0-9]+)\"");
@@ -147,6 +150,7 @@
         ///     Получает таблицу стилей для отчёта, извлекая ссылку на нее из разметки отчёта.
         /// </summary>
         /// <param name="reportHtml">Разметка отчёта.</param>
+        /// <param name="ct">Маркер отмены.</param>
         private async Task<string> GetReportStyleSheet(string reportHtml, CancellationToken ct)
         {
             if (ct.IsCancellationRequested)
@@ -154,7 +158,6 @@
                 ct.ThrowIfCancellationRequested();
             }
 
-            string cssRequestUri = "";
             HttpResponseMessage responseMsg = null;
 
             var regex = new Regex("<link\\w|\\shref=\"(?=([^\"]*))");
@@ -162,8 +165,8 @@
 
             if (match.Groups.Count > 1)
             {
-                cssRequestUri = match.Groups[1].Value;
-                responseMsg = await _pentahoHttpClient.GetAsync(cssRequestUri, ct);
+                string cssRequestUri = match.Groups[1].Value;
+                responseMsg = await PentahoHttpClient.GetAsync(cssRequestUri, ct);
             }
 
             return responseMsg == null ?
@@ -174,7 +177,6 @@
         /// <summary>
         ///     Возвращает тело GET-запроса для отправки на сервер Pentaho.
         /// </summary>
-        /// <param name="requestUri"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
         private string GetRequestBody(JObject parameters)
