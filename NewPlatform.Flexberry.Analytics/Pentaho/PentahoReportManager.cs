@@ -120,7 +120,7 @@
             string requestBody = GetRequestBody(parameters);
 
             var content = new StringContent(requestBody, Encoding.UTF8, "application/x-www-form-urlencoded");
-            var response = await PentahoHttpClient.PostAsync(requestUri, content, ct);
+            HttpResponseMessage response = await PentahoHttpClient.PostAsync(requestUri, content, ct);
             string reportMetadata = await response.Content.ReadAsStringAsync();
 
             var regex = new Regex("page-count=\"([0-9]+)\"");

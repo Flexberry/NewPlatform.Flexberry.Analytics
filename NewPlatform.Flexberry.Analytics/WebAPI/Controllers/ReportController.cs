@@ -4,13 +4,14 @@
     using NewPlatform.Flexberry.Analytics.Abstractions;
     using Newtonsoft.Json.Linq;
     using System;
+    using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
 
     public class ReportController : ApiController
     {
-        private const string reportPathParamName = "reportPath";
+        private const string ReportPathParamName = "reportPath";
 
         private readonly IReportManager ReportManager;
 
@@ -30,8 +31,8 @@
         {
             try
             {
-                string reportPath = GetParameterValue(parameters, reportPathParamName);
-                parameters.Remove(reportPathParamName);
+                string reportPath = GetParameterValue(parameters, ReportPathParamName);
+                parameters.Remove(ReportPathParamName);
                 string result = await ReportManager.GetReportHtml(reportPath, parameters, ct);
                 return Ok(result);
             }
@@ -64,9 +65,9 @@
         {
             try
             {
-                string reportPath = GetParameterValue(parameters, reportPathParamName);
-                parameters.Remove(reportPathParamName);
-                var result = await ReportManager.ExportReport(reportPath, parameters, ct);
+                string reportPath = GetParameterValue(parameters, ReportPathParamName);
+                parameters.Remove(ReportPathParamName);
+                HttpResponseMessage result = await ReportManager.ExportReport(reportPath, parameters, ct);
                 return ResponseMessage(result);
             }
             catch (TaskCanceledException tce)
@@ -97,8 +98,8 @@
         {
             try
             {
-                string reportPath = GetParameterValue(parameters, reportPathParamName);
-                parameters.Remove(reportPathParamName);
+                string reportPath = GetParameterValue(parameters, ReportPathParamName);
+                parameters.Remove(ReportPathParamName);
                 int result = await ReportManager.GetReportPageCount(reportPath, parameters, ct);
                 return Ok(result);
             }
