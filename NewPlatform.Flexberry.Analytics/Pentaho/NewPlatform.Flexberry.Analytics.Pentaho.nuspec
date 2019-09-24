@@ -21,7 +21,7 @@
     <dependencies>
       <group targetFramework=".NETFramework4.5">
         <dependency id="Newtonsoft.Json" version="11.0.1" />
-        <dependency id="NewPlatform.Flexberry.Analytics.Abstractions" version="1.0.0-beta01" />
+        <dependency id="NewPlatform.Flexberry.Analytics.Abstractions" version="1.0.0-beta03" />
       </group>
     </dependencies>
   </metadata>
