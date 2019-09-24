@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>NewPlatform.Flexberry.Analytics.WebApi</id>
-    <version>1.0.0-beta02</version>
+    <version>1.0.0-beta03</version>
     <title>Flexberry Analytics.WebApi</title>
     <authors>New Platform Ltd</authors>
     <owners>New Platform Ltd</owners>
@@ -17,12 +17,14 @@
 
       Fixed
       1. XML comments cleanup.
+      2. Dependencies now include Microsoft.AspNet.WebApi.Core.
     </releaseNotes>
     <copyright>Copyright New Platform Ltd 2019</copyright>
     <tags>Flexberry Analytics WebApi</tags>
     <dependencies>
         <dependency id="NewPlatform.Flexberry.LogService" version="1.1.0" />
         <dependency id="NewPlatform.Flexberry.Analytics.Abstractions" version="1.0.0-beta01" />
+        <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
         <dependency id="Newtonsoft.Json" version="11.0.2" />
     </dependencies>
   </metadata>
