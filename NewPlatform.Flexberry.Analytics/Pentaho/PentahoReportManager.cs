@@ -96,7 +96,7 @@
             HttpResponseMessage response = await PentahoHttpClient.GetAsync(requestUri, ct);
             response.EnsureSuccessStatusCode();
 
-            byte[] resultData = await GetReportData(contentType, response);
+            byte[] resultData = await GetReportData(contentType, parameters, response);
 
             var result = new HttpResponseMessage(HttpStatusCode.OK)
             {
@@ -138,9 +138,10 @@
         ///     Получить данные отчёта.
         /// </summary>
         /// <param name="contentType">Тип содержимого.</param>
+        /// <param name="parameters">Параметры отчёта.</param>
         /// <param name="response">Http-ответ.</param>
         /// <returns>Массив байт с данными отчёта.</returns>
-        protected virtual async Task<byte[]> GetReportData(string contentType, HttpResponseMessage response)
+        protected virtual async Task<byte[]> GetReportData(string contentType, JObject parameters, HttpResponseMessage response)
         {
             byte[] resultData;
             switch (contentType)
@@ -151,8 +152,7 @@
                     break;
 
                 default:
-                    bytes = await response.Content.ReadAsByteArrayAsync();
-                    resultData = bytes;
+                    resultData = await response.Content.ReadAsByteArrayAsync();
                     break;
             }
 
