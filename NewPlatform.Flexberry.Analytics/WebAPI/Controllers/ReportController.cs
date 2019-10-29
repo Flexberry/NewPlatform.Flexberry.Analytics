@@ -141,5 +141,41 @@
 
             return result;
         }
+
+        /// <summary>
+        /// Получение статического файла отчета.
+        /// </summary>
+        /// <param name="image">Наименование файла.</param>
+        /// <param name="ct">Маркер отмены.</param>
+        [HttpGet]
+        [ActionName("getReportResource")]
+        public async Task<IHttpActionResult> GetPentahoSource(string image, CancellationToken ct)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(image))
+                {
+                    throw new ArgumentNullException("Имя файла", "Наименование файла не может быть пустым.");
+                }
+
+                HttpResponseMessage result = await ReportManager.GetReportResource(image, ct);
+                return ResponseMessage(result);
+            }
+            catch (TaskCanceledException tce)
+            {
+                LogService.LogInfo("Запрос файла отчета был отменен", tce);
+                return null;
+            }
+            catch (ArgumentNullException ane)
+            {
+                LogService.LogError("Ошибка получения параметра", ane);
+                return BadRequest(ane.Message);
+            }
+            catch (Exception ex)
+            {
+                LogService.LogError("Исключение при получении файлов.", ex);
+                return InternalServerError(ex);
+            }
+        }
     }
 }

@@ -33,5 +33,12 @@
         /// <param name="parameters">Параметры отчёта.</param>
         /// <param name="ct">Маркер отмены.</param>
         Task<HttpResponseMessage> ExportReport(string reportPath, JObject parameters, CancellationToken ct);
+
+        /// <summary>
+        /// Получает статистического файла отчета.
+        /// </summary>
+        /// <param name="filename">Наименование файла.</param>
+        /// <param name="ct">Маркер отмены.</param>
+        Task<HttpResponseMessage> GetReportResource(string filename, CancellationToken ct);
     }
 }

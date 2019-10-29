@@ -17,19 +17,26 @@
     public class PentahoReportManager : IReportManager
     {
         private readonly HttpClient PentahoHttpClient;
+        private readonly string CurrentBackEndUri;
 
         /// <summary>
         /// Менеджер работы с системой отчетов.
         /// </summary>
         /// <param name="reportServiceEndpoint">Адрес системы отчетов.</param>
+        /// <param name="backendUrl">Адрес веб-сервиса.</param>
         /// <param name="login">Логин для входа.</param>
         /// <param name="password">Пароль для входа.</param>
         /// <param name="timeout">Время ожидания запроса.</param>
-        public PentahoReportManager(string reportServiceEndpoint, string login, string password, int timeout = 0)
+        public PentahoReportManager(string reportServiceEndpoint, string backendUrl, string login, string password, int timeout = 0)
         {
             if (string.IsNullOrEmpty(reportServiceEndpoint))
             {
                 throw new ArgumentNullException("URL-адрес системы отчетов.", "Адрес системы отчетов не может быть пустым.");
+            }
+
+            if (string.IsNullOrEmpty(backendUrl))
+            {
+                throw new ArgumentNullException("URL-адрес веб-сервисов.", "Адрес сервиса не может быть пустым.");
             }
 
             if (string.IsNullOrEmpty(login))
@@ -41,6 +48,7 @@
             {
                 throw new ArgumentNullException("Пароль для подключения к системе отчетов.", "Пароль для подключения к системе отчетов не может быть пустым.");
             }
+            CurrentBackEndUri = backendUrl;
 
             var handler = new HttpClientHandler
             {
@@ -73,12 +81,10 @@
             var response = await PentahoHttpClient.GetAsync(requestUri, ct);
             response.EnsureSuccessStatusCode();
             string reportHtml = await response.Content.ReadAsStringAsync();
-            string css = await GetReportStyleSheet(reportHtml, ct);
 
-            // Очищаем отчет от относительных ссылок.
-            reportHtml = Regex.Replace(reportHtml, "(<link.*>)", "");
-
-            return $"<style>{css}</style>{reportHtml}";
+            string endpoint = $"{CurrentBackEndUri}/reportapi/Report/getReportResource";
+            reportHtml = reportHtml.Replace("/pentaho/getImage", endpoint);
+            return reportHtml;
         }
 
         /// <inheritdoc />
@@ -160,34 +166,6 @@
         }
 
         /// <summary>
-        ///     Получает таблицу стилей для отчёта, извлекая ссылку на нее из разметки отчёта.
-        /// </summary>
-        /// <param name="reportHtml">Разметка отчёта.</param>
-        /// <param name="ct">Маркер отмены.</param>
-        private async Task<string> GetReportStyleSheet(string reportHtml, CancellationToken ct)
-        {
-            if (ct.IsCancellationRequested)
-            {
-                ct.ThrowIfCancellationRequested();
-            }
-
-            HttpResponseMessage responseMsg = null;
-
-            var regex = new Regex("<link\\w|\\shref=\"(?=([^\"]*))");
-            var match = regex.Match(reportHtml);
-
-            if (match.Groups.Count > 1)
-            {
-                string cssRequestUri = match.Groups[1].Value;
-                responseMsg = await PentahoHttpClient.GetAsync(cssRequestUri, ct);
-            }
-
-            return responseMsg == null ?
-                string.Empty :
-                await responseMsg.Content.ReadAsStringAsync();
-        }
-
-        /// <summary>
         ///     Возвращает тело GET-запроса для отправки на сервер Pentaho.
         /// </summary>
         /// <param name="parameters"></param>
@@ -216,6 +194,18 @@
             }
 
             return string.Join("&", keyValuePair.ToArray());
+        }
+
+        /// <inheritdoc />
+        public async Task<HttpResponseMessage> GetReportResource(string filename, CancellationToken ct)
+        {
+            if (ct.IsCancellationRequested)
+            {
+                ct.ThrowIfCancellationRequested();
+            }
+
+            string reportPath = $"/pentaho/getImage?image={filename}";
+            return await PentahoHttpClient.GetAsync(reportPath, ct);
         }
     }
 }
