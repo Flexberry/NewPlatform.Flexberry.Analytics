@@ -50,6 +50,7 @@ namespace NewPlatform.Flexberry.Analytics.WebApiSample
 
             container.RegisterType<IReportManager, PentahoReportManager>(new InjectionConstructor(new object[] 
                     { ConfigurationManager.AppSettings["ReportServiceEndpoint"]
+                    , ConfigurationManager.AppSettings["BackendEndpoint"]
                         , ConfigurationManager.AppSettings["PentahoReportLogin"]
                         , ConfigurationManager.AppSettings["PentahoReportPassword"]
                         , timeout }));
